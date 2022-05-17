@@ -5,10 +5,11 @@ const app = express();
 
 app.get('/resize', routes.resizeImage);
 app.get('/rotate', routes.rotateImage);
+app.get('/flip', routes.flipImage);
 
 
 
-app.listen(3000, () => {
- console.log("Server running on port 3000");
+app.listen(5500, () => {
+ console.log("Server running on port 5500");
 });
 

@@ -38,7 +38,27 @@ async function rotateImage(req, res, next) {
     }
 }
 
+async function flipImage(req, res, next) {
+    const params = paramHelper.getParamsFlip(req);
+    const oldFileName = params.url;
+    const newFileName = params.name + '_flip_' + params.direction + '.' + params.format;
+
+    try {
+        
+        await functions.flip(oldFileName, newFileName, params);
+        const file = await readFile(newFileName);
+        res.write(file);
+        res.end()
+    }
+    catch (e) {
+        next(e)
+    }
+}
+
+
+
 module.exports = {
     resizeImage,
-    rotateImage
+    rotateImage,
+    flipImage
 }

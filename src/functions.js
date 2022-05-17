@@ -23,20 +23,56 @@ async function rotate(filePath, newFilePath, params) {
     try {
 
         await sharp(filePath)
-        .rotate(params.angle)
+        .rotate(angle)
         .toFormat(params.format)
         .toFile(newFilePath);
 
 
         return Promise.resolve(newFilePath);
-}
-catch (e) {
-    return Promise.reject(e);
+    }
+    catch (e) {
+        return Promise.reject(e);
     }
 
 }
 
+async function flip(filePath, newFilePath, params) {
+    if (params.direction == "vert") {
+        try {
+
+            await sharp(filePath)
+            .flip()
+            .toFormat(params.format)
+            .toFile(newFilePath);
+    
+    
+            return Promise.resolve(newFilePath);
+        }
+        catch (e) {
+            return Promise.reject(e);
+        }
+    }
+
+    try {
+
+        await sharp(filePath)
+        .flop()
+        .toFormat(params.format)
+        .toFile(newFilePath);
+
+        return Promise.resolve(newFilePath);
+    }
+    catch (e) {
+        return Promise.reject(e);
+    }
+
+}
+
+
+
+
 module.exports = {
     resize,
-    rotate
+    rotate,
+    flip
 }

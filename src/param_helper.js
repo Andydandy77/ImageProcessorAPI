@@ -42,16 +42,16 @@ let getParamsResize = (req) => {
 
 function getParamsRotate(req) {
     let url = "../img/" + req.query.url;
-    let name = getName(url);
     let format = getFormat(req);
+    let name = url.slice(0, -1 * format.length - 1);
 
-    let direction = req.query.direction
+    let direction = req.query.dir
 
     if (direction != "cw" && direction != "ccw") {
         direction = config.DefaultDirection;
     }
 
-    let angle = req.query.angle;
+    let angle = parseFloat(req.query.ang);
 
     return {
         angle : angle,
@@ -62,13 +62,33 @@ function getParamsRotate(req) {
     }
 }
 
+function getParamsFlip(req) {
+    let url = "../img/" + req.query.url;
+    let format = getFormat(req);
+    let name = url.slice(0, -1 * format.length - 1);
+
+    let direction = req.query.dir
+
+    if (direction != "vert" && direction != "hor") {
+        direction = config.DefaultFlipDirection;
+    }
+
+    return {
+        direction : direction,
+        url : url,
+        name : name,
+        format : format
+    }
+}
+
+
+
 function getFormat(format) {
 
     if(format === undefined){
         format = "png";
     }
     else{
-        format = format.toLowerCase();
 
         if( format === "png" ||
             format === "jpeg" ||
@@ -89,5 +109,6 @@ function getFormat(format) {
 
 module.exports = {
     getParamsResize,
-    getParamsRotate
+    getParamsRotate,
+    getParamsFlip
 }
