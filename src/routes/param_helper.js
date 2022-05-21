@@ -1,9 +1,11 @@
-const config = require('../config.json');
+const config = require('../../config.json');
 
-let getParamsResize = (req) => {
-    let url = "../img/" + req.query.url;
-    let width = req.query.w;
-    let height = req.query.h;
+
+let getParamsResize = (func) => {
+    let width = func.width
+    let height = func.height;
+    let percent = parseFloat(func.percent);
+
     
     try {
         width = parseFloat(width);
@@ -27,58 +29,66 @@ let getParamsResize = (req) => {
         height = config.DefaultHeight;
     }
 
-    let format = getFormat(req.query.f);
-    let name = url.slice(0, -1 * format.length - 1);
 
 
     return {
+        percent : percent,
         height : height,
         width: width,
-        url : url,
-        name : name,
-        format : format
     }
 }
 
-function getParamsRotate(req) {
-    let url = "../img/" + req.query.url;
-    let format = getFormat(req);
-    let name = url.slice(0, -1 * format.length - 1);
-
-    let direction = req.query.dir
+function getParamsRotate(func) {
+    let direction = func.direction
 
     if (direction != "cw" && direction != "ccw") {
         direction = config.DefaultDirection;
     }
-
-    let angle = parseFloat(req.query.ang);
+    
+    let angle = parseFloat(func.angle);
+    if (isNaN(angle))
+        angle = 90;
 
     return {
         angle : angle,
         direction : direction,
-        url : url,
-        name : name,
-        format : format
     }
 }
 
-function getParamsFlip(req) {
-    let url = "../img/" + req.query.url;
-    let format = getFormat(req);
-    let name = url.slice(0, -1 * format.length - 1);
+function getParamsFlip(func) {
 
-    let direction = req.query.dir
+    let direction = func.dir;
 
     if (direction != "vert" && direction != "hor") {
         direction = config.DefaultFlipDirection;
     }
 
     return {
-        direction : direction,
-        url : url,
-        name : name,
-        format : format
+        direction : direction
     }
+}
+
+function getParamsSaturate(func) {
+
+    let saturation = parseFloat(func.saturation);
+
+    return {
+        saturation : saturation,
+    }
+
+}
+
+function getParamsGrayscale(func) {
+    let amount;
+    if (!isNaN(func.amount)) {
+        amount = parseFloat(func.amount);
+    }
+
+
+    return {
+        amount : amount,
+    }
+
 }
 
 
@@ -110,5 +120,7 @@ function getFormat(format) {
 module.exports = {
     getParamsResize,
     getParamsRotate,
-    getParamsFlip
+    getParamsFlip,
+    getParamsSaturate,
+    getParamsGrayscale
 }
