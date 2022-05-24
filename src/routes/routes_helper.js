@@ -44,10 +44,6 @@ async function api(req, res, next) {
     }  
 }      
     
-
-
-
-
 module.exports = {
     api
 }
