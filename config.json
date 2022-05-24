@@ -1,0 +1,7 @@
+{
+    "DefaultHeight" : 150,
+    "DefaultWidth" : 200,
+    "ImageBackground" : { "r": 248, "g": 249, "b": 250, "alpha": 1 },
+    "DefaultDirection" : "ccw",
+    "DefaultFlipDirection" : "hor"
+  }

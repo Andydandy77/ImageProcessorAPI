@@ -3,7 +3,7 @@ const sharp = require('sharp');
 async function resize(imgBuffer, params, format) {
     let width, height;
     if (!isNaN(params.percent)) {
-        const image = await sharp(filePath);
+        const image = await sharp(imgBuffer);
         const metadata = await image.metadata();
         width = Math.round(metadata.width * params.percent * .01);
         height = Math.round(metadata.height * params.percent * .01);
@@ -165,8 +165,6 @@ async function grayscale(imgBuffer, params, format) {
             return Promise.reject(e);
         }              
     }
-    
-
     
 }
 

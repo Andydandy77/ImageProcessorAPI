@@ -1,26 +1,26 @@
 const express = require("express");
-const bodyParser = require("body-parser")
 const routes = require("./routes/routes_helper");
 const app = express();
+const path = require("path");
+var fileupload = require("express-fileupload");
+app.use(fileupload());
 
-
-var jsonParser = bodyParser.json();
-
-var urlencodedParser = bodyParser.urlencoded({ extended: false });
-
-app.use(bodyParser.json());
-app.post('/resize', routes.resizeImage);
-app.post('/rotate', routes.rotateImage);
-app.post('/flip', routes.flipImage);
-app.post('/saturate', routes.saturateImage);
-app.post('/grayscale', routes.grayscaleImage);
+app.use(express.urlencoded({
+    extended: false
+  }));
+  app.use(express.json());
+  app.use(express.static("public"));
 
 app.post('/api', routes.api);
 
+app.get("/", (req, res) => {
+    res.sendFile(path.join(__dirname, "public/index.html"));
+  });
 
-
-
-
+  // Render 404 page for any unmatched routes
+  app.get("*", function(req, res) {
+    res.status("404");
+  });
 
 
 app.listen(3000, () => {

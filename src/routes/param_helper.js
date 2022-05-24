@@ -57,7 +57,7 @@ function getParamsRotate(func) {
 
 function getParamsFlip(func) {
 
-    let direction = func.dir;
+    let direction = func.direction;
 
     if (direction != "vert" && direction != "hor") {
         direction = config.DefaultFlipDirection;
